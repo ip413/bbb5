@@ -7,8 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "commit": "cz"
+    "test": "mocha index.test.js",
+    "test:debug": "npm test -- --inspect-brk"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,10 @@
   },
   "homepage": "https://github.com/ip413/bbb5#readme",
   "devDependencies": {
-    "cz-conventional-changelog": "^3.3.0"
+    "chai": "^4.3.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.27.0",
+    "mocha": "^8.4.0"
   },
   "config": {
     "commitizen": {
