@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "mocha index.test.js",
-    "test:debug": "npm test -- --inspect-brk"
+    "test:debug": "npm test -- --inspect-brk",
+    "test:watch": "npm test -- -w"
   },
   "repository": {
     "type": "git",
