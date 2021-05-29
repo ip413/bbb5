@@ -28,11 +28,49 @@ exports.getNearestWhitePixel = (pixel, pixelsList) => {
         if (lastSmallestDistance.distance === undefined && distance > -1) {
             lastSmallestDistance.distance = distance;
             lastSmallestDistance.position = i;
+            return;
         }
+
+        if (lastSmallestDistance.distance !== undefined && distance < lastSmallestDistance.distance && distance > -1) {
+            lastSmallestDistance.distance = distance;
+            lastSmallestDistance.position = i;
+        }
+
+
     });
 
     const targetPixel = pixelsList[lastSmallestDistance.position];
-    return this.getPixel(targetPixel.i, targetPixel.j, targetPixel.v);
+    return this.getPixel(targetPixel.i, targetPixel.j, lastSmallestDistance.distance);
+}
+
+exports.getListOfNearestPixels = (pixelsList) => {
+    const nearestPixelsList = [];
+
+    pixelsList.forEach(pixel => {
+        // console.log(pixel)
+        nearestPixelsList.push({origin: pixel, nearestPixel: this.getNearestWhitePixel(pixel, pixelsList)});
+        console.log(nearestPixelsList);
+    })
+
+    return nearestPixelsList.map(v => {
+        return {i: v.origin.i, j: v.origin.j, v: v.nearestPixel.v}
+    })
+}
+
+exports.pixelsListToString = (pixelsList) => {
+    // console.log()
+    let string = '';
+
+    pixelsList.map((v, index) => {
+        string += v.v
+
+        if (pixelsList[index + 1] && v.i < pixelsList[index + 1].i) {
+            string += '\n';
+        }
+
+    });
+
+    return string;
 }
 
 /**
