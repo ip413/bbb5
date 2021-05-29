@@ -25,6 +25,17 @@ describe('bbb5', function () {
     const stringBitmap = '10\n01';
     expect(calc.stringToBitmap(stringBitmap)).to.deep.equal([[1, 0], [0, 1]])
   });
+
+
+  it('bitmapToPixelsList', function () {
+    const bitmap = [[1, 0], [0, 1]];
+    expect(calc.bitmapToPixelsList(bitmap)).to.deep.equal([
+      {i:1, j:1},
+      {i:1, j:2},
+      {i:2, j:1},
+      {i:2, j:2}
+    ])
+  });
 });
 
 

@@ -14,6 +14,7 @@ exports.getNearestWhitePixel = (pixel, bitmap) => {
 /**
  * Changes string (input) representation of bitmap to array of arrays
  *
+ * @example
  * in:
  * 01
  * 10
@@ -32,6 +33,30 @@ exports.stringToBitmap = (bitmapString) => {
         bitmap.push(row.split('').map(v => parseInt(v)))
     });
     return bitmap;
+}
+
+/**
+ * @example
+ * in:
+ * [[1, 0], [0, 1]]
+ *
+ * out:
+ * [
+ *    {i:1, j:1},
+ *    {i:1, j:2},
+ *    {i:2, j:1},
+ *    {i:2, j:2}
+ * ]
+ */
+exports.bitmapToPixelsList = (bitmap) => {
+    const list = [];
+    for (let i = 0; i < bitmap.length; i++) {
+        for (let j = 0; j < bitmap[0].length; j++) {
+            list.push(this.getPixel(i+1, j+1))
+        }
+    }
+
+    return list;
 }
 
 /**
