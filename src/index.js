@@ -38,21 +38,24 @@ exports.stringToBitmap = (bitmapString) => {
 /**
  * @example
  * in:
- * [[1, 0], [0, 1]]
+ *  [
+ *    [1, 0],
+ *    [0, 1]
+ *  ]
  *
  * out:
  * [
- *    {i:1, j:1},
- *    {i:1, j:2},
- *    {i:2, j:1},
- *    {i:2, j:2}
+ *    { i: 1, j: 1, v: 1},
+ *    { i: 1, j: 2, v: 0},
+ *    { i: 2, j: 1, v: 0},
+ *    { i: 2, j: 2, v: 1}
  * ]
  */
 exports.bitmapToPixelsList = (bitmap) => {
     const list = [];
     for (let i = 0; i < bitmap.length; i++) {
         for (let j = 0; j < bitmap[0].length; j++) {
-            list.push(this.getPixel(i+1, j+1))
+            list.push(this.getPixel(i+1, j+1, bitmap[i][j]))
         }
     }
 
@@ -68,6 +71,6 @@ exports.calcDistanceBetween = (pixel1, pixel2) => {
     return Math.abs(pixel1.i - pixel2.i) + Math.abs(pixel1.j - pixel2.j);
 }
 
-exports.getPixel = (i, j) => {
-    return {i, j}
+exports.getPixel = (i, j, v = 0) => {
+    return {i, j, v}
 }

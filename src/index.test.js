@@ -30,10 +30,10 @@ describe('bbb5', function () {
   it('bitmapToPixelsList', function () {
     const bitmap = [[1, 0], [0, 1]];
     expect(calc.bitmapToPixelsList(bitmap)).to.deep.equal([
-      {i:1, j:1},
-      {i:1, j:2},
-      {i:2, j:1},
-      {i:2, j:2}
+      { i: 1, j: 1, v: 1},
+      { i: 1, j: 2, v: 0},
+      { i: 2, j: 1, v: 0},
+      { i: 2, j: 2, v: 1}
     ])
   });
 });
