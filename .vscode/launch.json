@@ -11,7 +11,7 @@
                 "--no-timeouts",
                 "--colors",
                 "--watch",
-                "${workspaceFolder}/index.test.js"
+                "${workspaceFolder}/src/*.test.js"
             ],
             "cwd": "${workspaceRoot}",
             "runtimeExecutable": null,
