@@ -32,5 +32,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "pipe-functions": "^1.3.0"
   }
 }

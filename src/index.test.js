@@ -26,7 +26,6 @@ describe('bbb5', function () {
     expect(calc.stringToBitmap(stringBitmap)).to.deep.equal([[1, 0], [0, 1]])
   });
 
-
   it('bitmapToPixelsList', function () {
     const bitmap = [[1, 0], [0, 1]];
     expect(calc.bitmapToPixelsList(bitmap)).to.deep.equal([
@@ -35,9 +34,42 @@ describe('bbb5', function () {
       { i: 2, j: 1, v: 0},
       { i: 2, j: 2, v: 1}
     ])
-  });
-});
 
+
+    const bitmap2 = [[1], [0], [0], [1]];
+    expect(calc.bitmapToPixelsList(bitmap2)).to.deep.equal([
+      { i: 1, j: 1, v: 1 },
+      { i: 2, j: 1, v: 0 },
+      { i: 3, j: 1, v: 0 },
+      { i: 4, j: 1, v: 1 }
+    ])
+
+    const bitmap3 = [[1]];
+    expect(calc.bitmapToPixelsList(bitmap3)).to.deep.equal([
+      { i: 1, j: 1, v: 1 }
+    ])
+  });
+
+  it('get nearest white pixel', function () {
+    let pixel;
+    let pixelsList;
+
+    // distance 0
+    pixel = calc.getPixel(1, 1);
+    pixelsList = calc.bitmapStringToPixelsList('10\n00');
+    expect(calc.getNearestWhitePixel(pixel, pixelsList)).to.deep.equal({ i: 1, j: 1, v: 1 });
+
+    // diagonal case
+    pixel = calc.getPixel(1, 1);
+    pixelsList = calc.bitmapStringToPixelsList('000\n000\n001');
+    expect(calc.getNearestWhitePixel(pixel, pixelsList)).to.deep.equal({i: 3, j: 3, v:1});
+
+    // the same line case
+    pixel = calc.getPixel(1, 2);
+    pixelsList = calc.bitmapStringToPixelsList('10\n00\n01');
+    expect(calc.getNearestWhitePixel(pixel, pixelsList)).to.deep.equal({ i: 1, j: 1, v: 1 });
+  })
+});
 
 
 function getSetOfPixels (positions) {

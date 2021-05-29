@@ -4,11 +4,35 @@
  *
  */
 
+const pipe = require('pipe-functions');
+
 exports.calcDistanceToNearest = () => 'TODO';
 
 
-exports.getNearestWhitePixel = (pixel, bitmap) => {
+exports.getNearestWhitePixel = (pixel, pixelsList) => {
+    const distanceList = [];
+    const lastSmallestDistance = {distance: undefined, position: undefined};
 
+    // calculating distance for each pixel
+    pixelsList.forEach(toPixel => {
+        if(toPixel.v === 1) {
+            const distance = this.calcDistanceBetween(pixel, toPixel);
+            distanceList.push(distance);
+        } else {
+            distanceList.push(-1);
+        }
+    });
+
+    // finding smallest distance
+    distanceList.forEach((distance, i) => {
+        if (lastSmallestDistance.distance === undefined && distance > -1) {
+            lastSmallestDistance.distance = distance;
+            lastSmallestDistance.position = i;
+        }
+    });
+
+    const targetPixel = pixelsList[lastSmallestDistance.position];
+    return this.getPixel(targetPixel.i, targetPixel.j, targetPixel.v);
 }
 
 /**
@@ -58,8 +82,11 @@ exports.bitmapToPixelsList = (bitmap) => {
             list.push(this.getPixel(i+1, j+1, bitmap[i][j]))
         }
     }
-
     return list;
+}
+
+exports.bitmapStringToPixelsList = (bitmapString) => {
+    return pipe(bitmapString, this.stringToBitmap, this.bitmapToPixelsList);
 }
 
 /**
