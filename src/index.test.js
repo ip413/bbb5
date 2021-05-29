@@ -2,6 +2,7 @@
 const expect = require('chai').expect;
 const calc = require('./index');
 const pipe = require('pipe-functions');
+const fs = require('fs');
 
 describe('bbb5 logic', function () {
   it.skip('calcDistanceToNearest', function () {
@@ -99,6 +100,15 @@ describe('bbb5 logic', function () {
 
     pixelsList = calc.bitmapStringToPixelsList('0001\n0011\n0110');
     expect(pipe(pixelsList, calc.getListOfNearestPixels, calc.pixelsListToString)).to.equal('3210\n2100\n1001');
+
+    expect(calc.bitmapStringToOutputString('0001\n0011\n0110')).to.equal('3210\n2100\n1001')
+  });
+
+
+  it('handle input data', function () {
+    const allCases = calc.handleInputData('argument', 'sample/input2.txt');
+    expect(calc.batchBitmapStringToOutputString(...allCases)).to.
+      equal("3210\n2100\n1001\n\n321\n210\n100\n211\n210\n100\n211\n210\n100\n211");
   });
 });
 

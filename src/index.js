@@ -16,7 +16,7 @@ cat sample/input1.txt | node ./src/index.js
 node ./src/index.js sample/input1.txt
 `;
 
-main();
+
 
 function main() {
 
@@ -33,7 +33,7 @@ function main() {
     }
     // If no STDIN but arguments given
     else if (process.stdin.isTTY && process.argv.length > 2) {
-        handleInputData('argument', process.argv[2]);
+        exports.handleInputData('argument', process.argv[2]);
     }
     // read from STDIN
     else {
@@ -42,12 +42,12 @@ function main() {
             data += process.stdin.read() || '';
         });
         process.stdin.on('end', () => {
-            handleInputData('stdin', data);
+            exports.handleInputData('stdin', data);
         });
     }
 }
 
-function handleInputData(type, data) {
+exports.handleInputData = (type, data) => {
     if(type === 'argument') {
         rawInput = fs.readFileSync(data, {encoding: 'utf-8'});
     }
@@ -56,13 +56,61 @@ function handleInputData(type, data) {
         rawInput = data;
     }
 
-    // console.log('raw input', rawInput);
+    const splitInput = rawInput.split('\n');
+    // console.log(splitInput);
+    const numberOfCases = splitInput[0];
+    const cases = [];
+
+    let inputCase = '';
+    let i = 1;
+    while(i <= splitInput.length) {
+
+        // if end of input or line with rows and columns info
+        if ((splitInput[i] && splitInput[i].includes(' ')) ||
+            i == splitInput.length) {
+            if(inputCase.length) {
+                cases.push((inputCase + '').trim());
+                inputCase = '';
+            }
+        } else {
+            inputCase += (splitInput[i] + "\n");
+        }
+        i++;
+    }
+
+    // console.log('raw input', rawInput, cases);
+    // console.log('output')
+    return cases;
+}
+
+exports.batchBitmapStringToOutputString = (...rest) => {
+    let output = '';
+    rest.forEach((bitmapString, index) => {
+        const bitmapsSeparator = index === rest.length - 1 ? '' : '\n\n';
+        output += this.bitmapStringToOutputString(bitmapString) + bitmapsSeparator;
+    })
+    return output;
 }
 
 /**
  * @example
  * in:
- * { i: 1, j: 2, v: 0 }, 
+ * '0001\n0011\n0110'
+ *
+ * out:
+ * '3210\n2100\n1001'
+ */
+exports.bitmapStringToOutputString = (bitmapString) => {
+    return pipe(bitmapString,
+        this.bitmapStringToPixelsList,
+        this.getListOfNearestPixels,
+        this.pixelsListToString);
+}
+
+/**
+ * @example
+ * in:
+ * { i: 1, j: 2, v: 0 },
  * [
  *   { i: 1, j: 1, v: 1 },
  *   { i: 1, j: 2, v: 0 },
@@ -71,7 +119,7 @@ function handleInputData(type, data) {
  *   { i: 3, j: 1, v: 0 },
  *   { i: 3, j: 2, v: 1 }
  * ]
- * 
+ *
  * out:
  * { i: 1, j: 1, v: 1 }
  */
@@ -113,7 +161,7 @@ exports.getNearestWhitePixel = (pixel, pixelsList) => {
  *   { i: 2, j: 1, v: 0 },
  *   { i: 2, j: 2, v: 1 }
  * ]
- * 
+ *
  * out:
  * [
  *   { i: 1, j: 1, v: 2 },
@@ -135,7 +183,7 @@ exports.getListOfNearestPixels = (pixelsList) => {
 }
 
 /**
- * 
+ *
  * @example
  * in:
  *  [
@@ -218,7 +266,7 @@ exports.bitmapStringToPixelsList = (bitmapString) => {
  * in:
  * {i: 1, j: 1}
  * {i: 3, j: 3}
- * 
+ *
  * out:
  * 4
  */
@@ -230,10 +278,12 @@ exports.calcDistanceBetween = (pixel1, pixel2) => {
  * @example
  * in:
  * 3, 3, 1
- * 
+ *
  * out:
  * {i: 3, j: 3, v: 1}
  */
 exports.getPixel = (i, j, v = 0) => {
     return {i, j, v}
 }
+
+main();
