@@ -5,8 +5,55 @@
  */
 
 const pipe = require('pipe-functions');
+const fs = require('fs');
 
 exports.calcDistanceToNearest = () => 'TODO';
+// Data from input file or stdin
+let rawInput;
+const usageMsg = `
+Usage:
+cat sample/input1.txt | node ./src/index.js
+node ./src/index.js sample/input1.txt
+`;
+
+
+main();
+
+function main() {
+
+    // If no STDIN and no arguments
+    if (process.stdin.isTTY && process.argv.length <= 2) {
+        process.stderr.write('Argument with file path, or stdin data required.');
+        process.stdout.write(usageMsg);
+        process.exit(1);
+    }
+    // If no STDIN but arguments given
+    else if (process.stdin.isTTY && process.argv.length > 2) {
+        handleInput('argument', process.argv[2]);
+    }
+    // read from STDIN
+    else {
+        let data = '';
+        process.stdin.on('readable', () => {
+            data += process.stdin.read() || '';
+        });
+        process.stdin.on('end', () => {
+            handleInput('stdin', data);
+        });
+    }
+}
+
+function handleInput(type, data) {
+    if(type === 'argument') {
+        rawInput = fs.readFileSync(data, {encoding: 'utf-8'});
+    }
+
+    if(type === 'stdin') {
+        rawInput = data;
+    }
+
+    console.log('input', rawInput);
+}
 
 
 exports.getNearestWhitePixel = (pixel, pixelsList) => {
