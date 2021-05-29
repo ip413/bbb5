@@ -16,10 +16,14 @@ cat sample/input1.txt | node ./src/index.js
 node ./src/index.js sample/input1.txt
 `;
 
-
 main();
 
 function main() {
+
+    // if module is required by other module, don't read stdin or arguments
+    if (require.main !== module) {
+        return;
+    }
 
     // If no STDIN and no arguments
     if (process.stdin.isTTY && process.argv.length <= 2) {
@@ -29,7 +33,7 @@ function main() {
     }
     // If no STDIN but arguments given
     else if (process.stdin.isTTY && process.argv.length > 2) {
-        handleInput('argument', process.argv[2]);
+        handleInputData('argument', process.argv[2]);
     }
     // read from STDIN
     else {
@@ -38,12 +42,12 @@ function main() {
             data += process.stdin.read() || '';
         });
         process.stdin.on('end', () => {
-            handleInput('stdin', data);
+            handleInputData('stdin', data);
         });
     }
 }
 
-function handleInput(type, data) {
+function handleInputData(type, data) {
     if(type === 'argument') {
         rawInput = fs.readFileSync(data, {encoding: 'utf-8'});
     }
@@ -52,10 +56,25 @@ function handleInput(type, data) {
         rawInput = data;
     }
 
-    console.log('input', rawInput);
+    // console.log('raw input', rawInput);
 }
 
-
+/**
+ * @example
+ * in:
+ * { i: 1, j: 2, v: 0 }, 
+ * [
+ *   { i: 1, j: 1, v: 1 },
+ *   { i: 1, j: 2, v: 0 },
+ *   { i: 2, j: 1, v: 0 },
+ *   { i: 2, j: 2, v: 0 },
+ *   { i: 3, j: 1, v: 0 },
+ *   { i: 3, j: 2, v: 1 }
+ * ]
+ * 
+ * out:
+ * { i: 1, j: 1, v: 1 }
+ */
 exports.getNearestWhitePixel = (pixel, pixelsList) => {
     const distanceList = [];
     const lastSmallestDistance = {distance: undefined, position: undefined};
@@ -72,31 +91,42 @@ exports.getNearestWhitePixel = (pixel, pixelsList) => {
 
     // finding smallest distance
     distanceList.forEach((distance, i) => {
-        if (lastSmallestDistance.distance === undefined && distance > -1) {
-            lastSmallestDistance.distance = distance;
-            lastSmallestDistance.position = i;
-            return;
+        if (distance > -1) {
+            if (lastSmallestDistance.distance === undefined ||
+                (lastSmallestDistance.distance !== undefined && distance < lastSmallestDistance.distance)) {
+                lastSmallestDistance.distance = distance;
+                lastSmallestDistance.position = i;
+            }
         }
-
-        if (lastSmallestDistance.distance !== undefined && distance < lastSmallestDistance.distance && distance > -1) {
-            lastSmallestDistance.distance = distance;
-            lastSmallestDistance.position = i;
-        }
-
-
     });
 
     const targetPixel = pixelsList[lastSmallestDistance.position];
     return this.getPixel(targetPixel.i, targetPixel.j, lastSmallestDistance.distance);
 }
 
+/**
+ * @example
+ * in:
+ * [
+ *   { i: 1, j: 1, v: 0 },
+ *   { i: 1, j: 2, v: 0 },
+ *   { i: 2, j: 1, v: 0 },
+ *   { i: 2, j: 2, v: 1 }
+ * ]
+ * 
+ * out:
+ * [
+ *   { i: 1, j: 1, v: 2 },
+ *   { i: 1, j: 2, v: 1 },
+ *   { i: 2, j: 1, v: 1 },
+ *   { i: 2, j: 2, v: 0 }
+ * ]
+ */
 exports.getListOfNearestPixels = (pixelsList) => {
     const nearestPixelsList = [];
 
     pixelsList.forEach(pixel => {
-        // console.log(pixel)
         nearestPixelsList.push({origin: pixel, nearestPixel: this.getNearestWhitePixel(pixel, pixelsList)});
-        console.log(nearestPixelsList);
     })
 
     return nearestPixelsList.map(v => {
@@ -104,8 +134,20 @@ exports.getListOfNearestPixels = (pixelsList) => {
     })
 }
 
+/**
+ * 
+ * @example
+ * in:
+ *  [
+ *   { i: 1, j: 1, v: 2 },
+ *   { i: 1, j: 2, v: 1 },
+ *   { i: 2, j: 1, v: 1 },
+ *   { i: 2, j: 2, v: 0 }
+ * ]
+ * out:
+ *  "21\n10"
+ */
 exports.pixelsListToString = (pixelsList) => {
-    // console.log()
     let string = '';
 
     pixelsList.map((v, index) => {
@@ -114,19 +156,15 @@ exports.pixelsListToString = (pixelsList) => {
         if (pixelsList[index + 1] && v.i < pixelsList[index + 1].i) {
             string += '\n';
         }
-
     });
 
     return string;
 }
 
 /**
- * Changes string (input) representation of bitmap to array of arrays
- *
  * @example
  * in:
- * 01
- * 10
+ * "01\n10"
  *
  * out:
  * [
@@ -175,14 +213,27 @@ exports.bitmapStringToPixelsList = (bitmapString) => {
 }
 
 /**
- * |i1-i2|+|j1-j2|p
- * @param {*} pixel1
- * @param {*} pixel2
+ * |i1-i2|+|j1-j2|
+ * @example
+ * in:
+ * {i: 1, j: 1}
+ * {i: 3, j: 3}
+ * 
+ * out:
+ * 4
  */
 exports.calcDistanceBetween = (pixel1, pixel2) => {
     return Math.abs(pixel1.i - pixel2.i) + Math.abs(pixel1.j - pixel2.j);
 }
 
+/**
+ * @example
+ * in:
+ * 3, 3, 1
+ * 
+ * out:
+ * {i: 3, j: 3, v: 1}
+ */
 exports.getPixel = (i, j, v = 0) => {
     return {i, j, v}
 }

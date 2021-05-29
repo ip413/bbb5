@@ -8,7 +8,7 @@ describe('bbb5 logic', function () {
     expect(calc.calcDistanceToNearest()).to.equal('TODO');
   });
 
-  it('calcDistanceBetween', function () {
+  it('calc distance between pixels', function () {
     const pixelsSet = getSetOfPixels([100, 100, 100, 100]);
     expect(calc.calcDistanceBetween(...pixelsSet)).to.equal(0);
 
@@ -22,7 +22,7 @@ describe('bbb5 logic', function () {
     expect(calc.calcDistanceBetween(...pixelsSet3)).to.equal(6);
   });
 
-  it('stringToBitmap', function () {
+  it('string to bitmap', function () {
     const stringBitmap = '10\n01';
     expect(calc.stringToBitmap(stringBitmap)).to.deep.equal([[1, 0], [0, 1]])
   });
@@ -35,7 +35,6 @@ describe('bbb5 logic', function () {
       { i: 2, j: 1, v: 0},
       { i: 2, j: 2, v: 1}
     ])
-
 
     const bitmap2 = [[1], [0], [0], [1]];
     expect(calc.bitmapToPixelsList(bitmap2)).to.deep.equal([
@@ -96,13 +95,12 @@ describe('bbb5 logic', function () {
     expect(pipe(pixelsList, calc.getListOfNearestPixels, calc.pixelsListToString)).to.equal("012\n121\n210");
 
     pixelsList = calc.bitmapStringToPixelsList('001\n010\n100');
-    expect(calc.pixelsListToString(calc.getListOfNearestPixels(pixelsList))).to.equal('210\n101\n012');
+    expect(pipe(pixelsList, calc.getListOfNearestPixels, calc.pixelsListToString)).to.equal('210\n101\n012');
 
     pixelsList = calc.bitmapStringToPixelsList('0001\n0011\n0110');
-    expect(calc.pixelsListToString(calc.getListOfNearestPixels(pixelsList))).to.equal('3210\n2100\n1001');
+    expect(pipe(pixelsList, calc.getListOfNearestPixels, calc.pixelsListToString)).to.equal('3210\n2100\n1001');
   });
 });
-
 
 function getSetOfPixels (positions) {
   const pixels =[];
@@ -111,24 +109,3 @@ function getSetOfPixels (positions) {
   }
   return pixels;
 }
-/*
-sample, distance 2
-1, 0
-0, 1
-*/
-
-
-/*
-sample, distance 4
-1, 0, 0
-0, 0, 0
-0, 0, 1
-*/
-
-/*
-sample, distance 6
-1, 0, 0, 0
-0, 0, 0, 0
-0, 0, 0, 0
-0, 0, 0, 1
-*/
