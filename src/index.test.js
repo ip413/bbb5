@@ -8,6 +8,9 @@ describe('bbb5', function () {
   });
 
   it('calcDistanceBetween', function () {
+    const pixelsSet = getSetOfPixels([100, 100, 100, 100]);
+    expect(calc.calcDistanceBetween(...pixelsSet)).to.equal(0);
+
     const pixelsSet1 = getSetOfPixels([1, 1, 2, 2]);
     expect(calc.calcDistanceBetween(...pixelsSet1)).to.equal(2);
 
@@ -16,6 +19,11 @@ describe('bbb5', function () {
 
     const pixelsSet3 = getSetOfPixels([1, 1, 4, 4]);
     expect(calc.calcDistanceBetween(...pixelsSet3)).to.equal(6);
+  });
+
+  it('stringToBitmap', function () {
+    const stringBitmap = '10\n01';
+    expect(calc.stringToBitmap(stringBitmap)).to.deep.equal([[1, 0], [0, 1]])
   });
 });
 
