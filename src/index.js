@@ -114,33 +114,6 @@ exports.getNearestWhitePixel = (pixel, pixelsList) => {
     return iterateAllPixels(pixel, pixelsList)
 }
 
-function iterateAllPixels(pixel, pixelsList) {
-    let selectedPixelsList = [];
-
-    let smallestDistancePixel;
-    for (let toPixel of pixelsList) {
-        if (toPixel.v === 1) {
-            const distance = calcDistanceBetween(pixel, toPixel);
-            const distancePixel = exports.getPixel(toPixel.i, toPixel.j, distance);
-
-            if (smallestDistancePixel === undefined) {
-                smallestDistancePixel = distancePixel;
-            }
-
-            if (!!smallestDistancePixel && distance <= smallestDistancePixel.v) {
-                selectedPixelsList.push(distancePixel);
-                smallestDistancePixel = distancePixel;
-                if (distance === 1) {
-                    break;
-                }
-            }
-        }
-    }
-
-    selectedPixelsList = selectedPixelsList.sort((a, b) => a.v - b.v);
-    return selectedPixelsList[0];
-}
-
 /**
  * @example
  * in:
@@ -345,6 +318,39 @@ function splitRawInputToCases(rawInput) {
  */
 function calcDistanceBetween(pixel1, pixel2) {
     return Math.abs(pixel1.i - pixel2.i) + Math.abs(pixel1.j - pixel2.j);
+}
+
+/**
+ * Returns closes pixel from pixels list
+ * @example
+ * out:
+ * {i: 2, j: 3, v: 8}
+ */
+function iterateAllPixels(pixel, pixelsList) {
+    let selectedPixelsList = [];
+
+    let smallestDistancePixel;
+    for (let toPixel of pixelsList) {
+        if (toPixel.v === 1) {
+            const distance = calcDistanceBetween(pixel, toPixel);
+            const distancePixel = exports.getPixel(toPixel.i, toPixel.j, distance);
+
+            if (smallestDistancePixel === undefined) {
+                smallestDistancePixel = distancePixel;
+            }
+
+            if (!!smallestDistancePixel && distance <= smallestDistancePixel.v) {
+                selectedPixelsList.push(distancePixel);
+                smallestDistancePixel = distancePixel;
+                if (distance === 1) {
+                    break;
+                }
+            }
+        }
+    }
+
+    selectedPixelsList = selectedPixelsList.sort((a, b) => a.v - b.v);
+    return selectedPixelsList[0];
 }
 
 main();
