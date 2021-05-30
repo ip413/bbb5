@@ -83,53 +83,53 @@ describe('bbb5 logic', function () {
   });
 });
 
-describe.skip('bbb5 performance: ones', function () {
+describe('bbb5 performance: ones', function () {
   it('ones 100', function () {
     expect(calc.processInputData('argument', 'sample/input-03-many-ones-10x10-100.txt')).to.
       equal(fs.readFileSync('sample/output-03-many-ones-10x10-100.txt', { encoding: 'utf-8' }));
   });
 
-  it('ones 10k', function () {
-    expect(calc.processInputData('argument', 'sample/input-04-many-ones-100x100-10000.txt')).to.
-      equal(fs.readFileSync('sample/output-04-many-ones-100x100-10000.txt', { encoding: 'utf-8' }));
-  }).timeout(3000);
+  // it('ones 10k', function () {
+  //   expect(calc.processInputData('argument', 'sample/input-04-many-ones-100x100-10000.txt')).to.
+  //     equal(fs.readFileSync('sample/output-04-many-ones-100x100-10000.txt', { encoding: 'utf-8' }));
+  // }).timeout(3000);
 
-  it('ones 33k', function () {
-    expect(calc.processInputData('argument', 'sample/input-05-many-ones-182x182-33124.txt')).to.
-      equal(fs.readFileSync('sample/output-05-many-ones-182x182-33124.txt', { encoding: 'utf-8' }));
-  }).timeout(30000);
+  // it('ones 33k', function () {
+  //   expect(calc.processInputData('argument', 'sample/input-05-many-ones-182x182-33124.txt')).to.
+  //     equal(fs.readFileSync('sample/output-05-many-ones-182x182-33124.txt', { encoding: 'utf-8' }));
+  // }).timeout(30000);
 })
 
-describe.skip('bbb5 performance: zeros', function () {
+describe('bbb5 performance: zeros', function () {
   it('zeros 100', function () {
     expect(calc.processInputData('argument', 'sample/input-06-many-zeros-10x10-100.txt')).to.
       equal(fs.readFileSync('sample/output-06-many-zeros-10x10-100.txt', { encoding: 'utf-8' }));
   });
 
-  it('zeros 10k', function () {
-    expect(calc.processInputData('argument', 'sample/input-07-many-zeros-100x100-10000.txt')).to.
-      equal(fs.readFileSync('sample/output-07-many-zeros-100x100-10000.txt', { encoding: 'utf-8' }));
-  });
+  // it('zeros 10k', function () {
+  //   expect(calc.processInputData('argument', 'sample/input-07-many-zeros-100x100-10000.txt')).to.
+  //     equal(fs.readFileSync('sample/output-07-many-zeros-100x100-10000.txt', { encoding: 'utf-8' }));
+  // });
 
-  it('zeros 33k', function () {
-    expect(calc.processInputData('argument', 'sample/input-08-many-zeros-182x182-33124.txt')).to.
-      equal(fs.readFileSync('sample/output-08-many-zeros-182x182-33124.txt', { encoding: 'utf-8' }));
-  }).timeout(30000);
+  // it('zeros 33k', function () {
+  //   expect(calc.processInputData('argument', 'sample/input-08-many-zeros-182x182-33124.txt')).to.
+  //     equal(fs.readFileSync('sample/output-08-many-zeros-182x182-33124.txt', { encoding: 'utf-8' }));
+  // }).timeout(30000);
 })
 
-describe.skip('bbb5 performance: random', function () {
+describe('bbb5 performance: random', function () {
   it('random 100', function () {
     expect(calc.processInputData('argument', 'sample/input-09-random-10x10-100.txt')).to.
       equal(fs.readFileSync('sample/output-09-random-10x10-100.txt', { encoding: 'utf-8' }));
   });
 
-  it('random 10k', function () {
-    expect(calc.processInputData('argument', 'sample/input-10-random-100x100-10000.txt')).to.
-      equal(fs.readFileSync('sample/output-10-random-100x100-10000.txt', { encoding: 'utf-8' }));
-  }).timeout(3000);
+//   it('random 10k', function () {
+//     expect(calc.processInputData('argument', 'sample/input-10-random-100x100-10000.txt')).to.
+//       equal(fs.readFileSync('sample/output-10-random-100x100-10000.txt', { encoding: 'utf-8' }));
+//   }).timeout(3000);
 
-  it('random 33k', function () {
-    expect(calc.processInputData('argument', 'sample/input-11-random-182x182-33124.txt')).to.
-      equal(fs.readFileSync('sample/output-11-random-182x182-33124.txt', { encoding: 'utf-8' }));
-  }).timeout(30000);
+  // it('random 33k', function () {
+  //   expect(calc.processInputData('argument', 'sample/input-11-random-182x182-33124.txt')).to.
+  //     equal(fs.readFileSync('sample/output-11-random-182x182-33124.txt', { encoding: 'utf-8' }));
+  // }).timeout(30000);
 })

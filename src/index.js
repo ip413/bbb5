@@ -90,40 +90,55 @@ exports.bitmapStringToOutputString = (bitmapString) => {
  * { i: 1, j: 1, v: 1 }
  */
 exports.getNearestWhitePixel = (pixel, pixelsList) => {
-    let selectedPixelsList = [];
-
+    // pixel itself is white, so distance is 0
     if(pixel.v === 1) {
-        return { i: pixel.i, j: pixel.j, v: 0 };
+        return this.getPixel(pixel.i, pixel.j, 0);
     }
 
+    // if closest neighbors have some white pixels,
+    // we don't need to check whole bitmap
+    // double sqrt seems to works best on random data
+    const neighborsCircleSize = Math.sqrt(Math.sqrt(pixelsList.length));
+    const neighbors = pixelsList.filter(toPixel => {
+        if (Math.abs(toPixel.i - pixel.i) < neighborsCircleSize &&
+            Math.abs(toPixel.j - pixel.j) < neighborsCircleSize) {
+                return true;
+            }
+    });
+    const foundInNeighbors = iterateAllPixels(pixel, neighbors);
+    if (foundInNeighbors) {
+        return foundInNeighbors;
+    }
+
+    // check whole bitmap
+    return iterateAllPixels(pixel, pixelsList)
+}
+
+function iterateAllPixels(pixel, pixelsList) {
+    let selectedPixelsList = [];
+
     let smallestDistancePixel;
-    pixelsList.forEach(toPixel => {
-        if(toPixel.v === 1) {
+    for (let toPixel of pixelsList) {
+        if (toPixel.v === 1) {
             const distance = calcDistanceBetween(pixel, toPixel);
+            const distancePixel = exports.getPixel(toPixel.i, toPixel.j, distance);
 
             if (smallestDistancePixel === undefined) {
-                smallestDistancePixel = { i: toPixel.i, j: toPixel.j, v: distance };
+                smallestDistancePixel = distancePixel;
             }
 
             if (!!smallestDistancePixel && distance <= smallestDistancePixel.v) {
-                const targetPixel = { i: toPixel.i, j: toPixel.j, v: distance }
-                selectedPixelsList.push(targetPixel);
-                smallestDistancePixel = { i: toPixel.i, j: toPixel.j, v: distance };
+                selectedPixelsList.push(distancePixel);
+                smallestDistancePixel = distancePixel;
+                if (distance === 1) {
+                    break;
+                }
             }
         }
-    });
+    }
 
     selectedPixelsList = selectedPixelsList.sort((a, b) => a.v - b.v);
     return selectedPixelsList[0];
-}
-
-function filterDistanceList(distanceList, distance) {
-    return distanceList.filter(distanceObj => {
-        if(distanceObj.distance < distanceObj.toPixel.i) {
-            return true;
-        }
-        return false;
-    })
 }
 
 /**

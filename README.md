@@ -5,7 +5,7 @@ If you don't know why you are here, in this repo, just leave. This repo should b
 
 ## Performance
 
-#### Algorithm version: 1 (5e3c7d9)
+### Algorithm version: 1 (5e3c7d9)
 | input size  | ones | zeros | random |
 |-------------|----- |-------|--------|
 | 100         | 0.04 | 0.04  | 0.07   |
@@ -16,7 +16,7 @@ If you don't know why you are here, in this repo, just leave. This repo should b
 ![alt text](./readme-img/performance-v1.png "algorithm version: 1")
 
 
-#### Algorithm version: 2 (15c994b)
+### Algorithm version: 2 (15c994b)
 | input size  | ones  | zeros | random |
 |-------------|-------|-------|--------|
 | 100         | 0.04  | 0.04  | 0.04   |
@@ -26,7 +26,20 @@ If you don't know why you are here, in this repo, just leave. This repo should b
 
 ![alt text](./readme-img/performance-v2.png "algorithm version: 1")
 
-![alt text](./readme-img/performance-v1vsv2.png "algorithm version change: 1 => 2")
+
+### Algorithm version: 3 (a673708)
+| input size  | ones  | zeros | random |
+|-------------|-------|-------|--------|
+| 100         | 0.07  | 0.08  | 0.08   |
+| 10000       | 0.09  | 1.2   | 0.57   |
+| 33124       | 0.14  | 6.8   | 2.9    |
+
+
+![alt text](./readme-img/performance-v3.png "algorithm version: 1")
+
+
+### Performance change
+![alt text](./readme-img/performance-algorithm-comparison.png "algorithm version change: 1 => 2 => 3")
 
 
 ## Useful things
