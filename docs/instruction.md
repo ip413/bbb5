@@ -3,7 +3,7 @@ Complete the task described below. The source code must be available on a public
 with a `README.md` file containing a description of an algorithm used and a quick start.
 
 ## Task
-There is given a rectangular bitmap of size n\*m. Each pixel of the bitmap is
+There is given a rectangular bitmap of size n*m. Each pixel of the bitmap is
 either white or black, but at least one is white. The pixel in i-th line and
 j-th column is called the pixel (i,j). The distance between two pixels
 p1=(i1,j1) and p2=(i2,j2) is defined as d(p1,p2)=|i1-i2|+|j1-j2|.
