@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 const expect = require('chai').expect;
-const calc = require('./index');
-const pipe = require('pipe-functions');
 const fs = require('fs');
+const calc = require('./index');
 
 describe('bbb5 logic', function () {
 
@@ -93,8 +92,8 @@ describe('bbb5 logic', function () {
   });
 
   it('handle input data', function () {
-    expect(calc.processInputData('argument', 'sample/input2.txt')).to.
-      equal("3 2 1 0\n2 1 0 0\n1 0 0 1\n\n3 2 1\n2 1 0\n1 0 0\n2 1 1\n2 1 0\n1 0 0\n2 1 1\n2 1 0\n1 0 0\n2 1 1");
+    expect(calc.processInputData('argument', 'sample/input-02.txt')).to.
+      equal(fs.readFileSync('sample/output-02.txt', {encoding: 'utf-8'}));
   });
 });
 

@@ -39,6 +39,23 @@ function main() {
     }
 }
 
+/**
+ * @example
+ * in:
+ * 'argument',
+ * 'sample/input-02.txt'
+ * 
+ * out:
+ * 3 2 1 0
+ * 2 1 0 0
+ * 1 0 0 1
+ * 
+ * 3 2 1
+ * 2 1 0
+ * 1 0 0
+ * 2 1 1
+ * [...]
+ */
 exports.processInputData = (type, data) => {
     let rawInput;
     if(type === 'argument') {
