@@ -5,9 +5,6 @@ const pipe = require('pipe-functions');
 const fs = require('fs');
 
 describe('bbb5 logic', function () {
-  it.skip('calcDistanceToNearest', function () {
-    expect(calc.calcDistanceToNearest()).to.equal('TODO');
-  });
 
   it('calc distance between pixels', function () {
     const pixelsSet = getSetOfPixels([100, 100, 100, 100]);
@@ -84,31 +81,20 @@ describe('bbb5 logic', function () {
   })
 
   it('get list of nearest pixels', function () {
-    let pixelsList;
+    expect(calc.bitmapStringToOutputString('00\n01')).to.equal("2 1\n1 0");
 
-    pixelsList = calc.bitmapStringToPixelsList('00\n01');
-    expect(pipe(pixelsList, calc.getListOfNearestPixels, calc.pixelsListToString)).to.equal("21\n10");
+    expect(calc.bitmapStringToOutputString('000\n000\n001')).to.equal("4 3 2\n3 2 1\n2 1 0");
 
-    pixelsList = calc.bitmapStringToPixelsList('000\n000\n001');
-    expect(pipe(pixelsList, calc.getListOfNearestPixels, calc.pixelsListToString)).to.equal("432\n321\n210");
+    expect(calc.bitmapStringToOutputString('100\n000\n001')).to.equal("0 1 2\n1 2 1\n2 1 0");
 
-    pixelsList = calc.bitmapStringToPixelsList('100\n000\n001');
-    expect(pipe(pixelsList, calc.getListOfNearestPixels, calc.pixelsListToString)).to.equal("012\n121\n210");
+    expect(calc.bitmapStringToOutputString('001\n010\n100')).to.equal('2 1 0\n1 0 1\n0 1 2');
 
-    pixelsList = calc.bitmapStringToPixelsList('001\n010\n100');
-    expect(pipe(pixelsList, calc.getListOfNearestPixels, calc.pixelsListToString)).to.equal('210\n101\n012');
-
-    pixelsList = calc.bitmapStringToPixelsList('0001\n0011\n0110');
-    expect(pipe(pixelsList, calc.getListOfNearestPixels, calc.pixelsListToString)).to.equal('3210\n2100\n1001');
-
-    expect(calc.bitmapStringToOutputString('0001\n0011\n0110')).to.equal('3210\n2100\n1001')
+    expect(calc.bitmapStringToOutputString('0001\n0011\n0110')).to.equal('3 2 1 0\n2 1 0 0\n1 0 0 1');
   });
 
-
   it('handle input data', function () {
-    const allCases = calc.handleInputData('argument', 'sample/input2.txt');
-    expect(calc.batchBitmapStringToOutputString(...allCases)).to.
-      equal("3210\n2100\n1001\n\n321\n210\n100\n211\n210\n100\n211\n210\n100\n211");
+    expect(calc.processInputData('argument', 'sample/input2.txt')).to.
+      equal("3 2 1 0\n2 1 0 0\n1 0 0 1\n\n3 2 1\n2 1 0\n1 0 0\n2 1 1\n2 1 0\n1 0 0\n2 1 1\n2 1 0\n1 0 0\n2 1 1");
   });
 });
 

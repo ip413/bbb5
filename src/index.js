@@ -1,27 +1,19 @@
-/**
- * n x m
- * i/n lines, j/m columns
- *
- */
 
 const pipe = require('pipe-functions');
 const fs = require('fs');
 
-exports.calcDistanceToNearest = () => 'TODO';
-// Data from input file or stdin
-let rawInput;
+const RUNNING_AS_SCRIPT = require.main === module;
+const OUTPUT_TO_FILE = true;
 const usageMsg = `
 Usage:
 cat sample/input1.txt | node ./src/index.js
 node ./src/index.js sample/input1.txt
 `;
 
-
-
 function main() {
 
     // if module is required by other module, don't read stdin or arguments
-    if (require.main !== module) {
+    if (!RUNNING_AS_SCRIPT) {
         return;
     }
 
@@ -33,7 +25,7 @@ function main() {
     }
     // If no STDIN but arguments given
     else if (process.stdin.isTTY && process.argv.length > 2) {
-        exports.handleInputData('argument', process.argv[2]);
+        exports.processInputData('argument', process.argv[2]);
     }
     // read from STDIN
     else {
@@ -42,12 +34,13 @@ function main() {
             data += process.stdin.read() || '';
         });
         process.stdin.on('end', () => {
-            exports.handleInputData('stdin', data);
+            exports.processInputData('stdin', data);
         });
     }
 }
 
-exports.handleInputData = (type, data) => {
+exports.processInputData = (type, data) => {
+    let rawInput;
     if(type === 'argument') {
         rawInput = fs.readFileSync(data, {encoding: 'utf-8'});
     }
@@ -56,19 +49,49 @@ exports.handleInputData = (type, data) => {
         rawInput = data;
     }
 
+    const output = exports.batchBitmapStringToOutputString(...splitRawInputToCases(rawInput));
+
+    if (RUNNING_AS_SCRIPT) {
+        if(OUTPUT_TO_FILE) {
+            fs.writeFileSync(`./output/${Date.now()}.txt`, output);
+        }
+        process.stdout.write(output + '\n');
+    }
+    return output;
+}
+
+
+/**
+ * @example
+ * in:
+ * 2
+ * 3 4
+ * 0001
+ * 0011
+ * 0110
+ * 2 2
+ * 01
+ * 10
+ *
+ * out:
+ * 0001
+ * 0011
+ * 0110
+ *
+ * 01
+ * 10
+ */
+function splitRawInputToCases(rawInput) {
     const splitInput = rawInput.split('\n');
-    // console.log(splitInput);
-    const numberOfCases = splitInput[0];
     const cases = [];
 
     let inputCase = '';
     let i = 1;
-    while(i <= splitInput.length) {
-
+    while (i <= splitInput.length) {
         // if end of input or line with rows and columns info
         if ((splitInput[i] && splitInput[i].includes(' ')) ||
             i == splitInput.length) {
-            if(inputCase.length) {
+            if (inputCase.length) {
                 cases.push((inputCase + '').trim());
                 inputCase = '';
             }
@@ -78,8 +101,6 @@ exports.handleInputData = (type, data) => {
         i++;
     }
 
-    // console.log('raw input', rawInput, cases);
-    // console.log('output')
     return cases;
 }
 
@@ -199,14 +220,14 @@ exports.pixelsListToString = (pixelsList) => {
     let string = '';
 
     pixelsList.map((v, index) => {
-        string += v.v
+        string += v.v + ' ';
 
         if (pixelsList[index + 1] && v.i < pixelsList[index + 1].i) {
-            string += '\n';
+            string = string.trim() + '\n';
         }
     });
 
-    return string;
+    return string.trim();
 }
 
 /**
