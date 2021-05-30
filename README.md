@@ -1,7 +1,41 @@
 # Interview task for c9...
 If you don't know why you are here, in this repo, just leave. This repo should be public and README shouldn't be too descriptive.
 
+## Usage
 
+Preparation:
+```
+npm i
+npm test
+```
+
+Script can be used from terminal or as a module.
+Terminal allows to use script with pipes and arguments.
+```
+cat sample/input-01.txt | node ./src/index.js
+node ./src/index.js sample/input-02.txt
+```
+
+Sample input and output files are stored in **sample** directory.
+
+Folder **output** contains results of outputs from terminal - just in case.
+
+## Algorithm
+
+* algorithm is not searching for pixels in "spiral" way, somehow I didn't think about it, but it should be the main idea
+* use of short-circuit evaluation in two cases: pixel is white itself, or some neighbor is white
+* number of neighbors to pre-check depends on number of pixels in the whole bitmap
+* if no neighbor have white pixel, then whole bitmap is checked
+* third version of algorithm is slower for "zero" bitmaps, but "random" bitmap type was the priority
+
+## TODO
+
+Things that can be done better:
+* algorithm: still too greedy
+* cyclomatic complexity too high
+* separation form library and interface/terminal wrapper seems to be good idea
+* names of methods/function/files aren't too good
+* neighbors could depend on bitmap shape (high or wide bitmaps should have different shape of pre-check neighbors "circle")
 
 ## Performance
 
