@@ -15,12 +15,12 @@ node ./src/index.js sample/input1.txt
  * in:
  * 'argument',
  * 'sample/input-02.txt'
- * 
+ *
  * out:
  * 3 2 1 0
  * 2 1 0 0
  * 1 0 0 1
- * 
+ *
  * 3 2 1
  * 2 1 0
  * 1 0 0
@@ -47,8 +47,6 @@ exports.processInputData = (type, data) => {
     }
     return output;
 }
-
-
 
 
 exports.batchBitmapStringToOutputString = (...rest) => {
@@ -92,32 +90,40 @@ exports.bitmapStringToOutputString = (bitmapString) => {
  * { i: 1, j: 1, v: 1 }
  */
 exports.getNearestWhitePixel = (pixel, pixelsList) => {
-    const distanceList = [];
-    const lastSmallestDistance = {distance: undefined, position: undefined};
+    let selectedPixelsList = [];
 
-    // calculating distance for each pixel
+    if(pixel.v === 1) {
+        return { i: pixel.i, j: pixel.j, v: 0 };
+    }
+
+    let smallestDistancePixel;
     pixelsList.forEach(toPixel => {
         if(toPixel.v === 1) {
             const distance = calcDistanceBetween(pixel, toPixel);
-            distanceList.push(distance);
-        } else {
-            distanceList.push(-1);
-        }
-    });
 
-    // finding smallest distance
-    distanceList.forEach((distance, i) => {
-        if (distance > -1) {
-            if (lastSmallestDistance.distance === undefined ||
-                (lastSmallestDistance.distance !== undefined && distance < lastSmallestDistance.distance)) {
-                lastSmallestDistance.distance = distance;
-                lastSmallestDistance.position = i;
+            if (smallestDistancePixel === undefined) {
+                smallestDistancePixel = { i: toPixel.i, j: toPixel.j, v: distance };
+            }
+
+            if (!!smallestDistancePixel && distance <= smallestDistancePixel.v) {
+                const targetPixel = { i: toPixel.i, j: toPixel.j, v: distance }
+                selectedPixelsList.push(targetPixel);
+                smallestDistancePixel = { i: toPixel.i, j: toPixel.j, v: distance };
             }
         }
     });
 
-    const targetPixel = pixelsList[lastSmallestDistance.position];
-    return this.getPixel(targetPixel.i, targetPixel.j, lastSmallestDistance.distance);
+    selectedPixelsList = selectedPixelsList.sort((a, b) => a.v - b.v);
+    return selectedPixelsList[0];
+}
+
+function filterDistanceList(distanceList, distance) {
+    return distanceList.filter(distanceObj => {
+        if(distanceObj.distance < distanceObj.toPixel.i) {
+            return true;
+        }
+        return false;
+    })
 }
 
 /**

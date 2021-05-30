@@ -92,7 +92,7 @@ describe.skip('bbb5 performance: ones', function () {
   it('ones 10k', function () {
     expect(calc.processInputData('argument', 'sample/input-04-many-ones-100x100-10000.txt')).to.
       equal(fs.readFileSync('sample/output-04-many-ones-100x100-10000.txt', { encoding: 'utf-8' }));
-  });
+  }).timeout(3000);
 
   it('ones 33k', function () {
     expect(calc.processInputData('argument', 'sample/input-05-many-ones-182x182-33124.txt')).to.
@@ -113,7 +113,7 @@ describe.skip('bbb5 performance: zeros', function () {
 
   it('zeros 33k', function () {
     expect(calc.processInputData('argument', 'sample/input-08-many-zeros-182x182-33124.txt')).to.
-      equal(fs.readFileSync('sample/output-08-many-zeros-182x182-3312433124.txt', { encoding: 'utf-8' }));
+      equal(fs.readFileSync('sample/output-08-many-zeros-182x182-33124.txt', { encoding: 'utf-8' }));
   }).timeout(30000);
 })
 
