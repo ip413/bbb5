@@ -14,3 +14,10 @@ If you don't know why you are here, in this repo, just leave. This repo should b
 
 
 ![alt text](./readme-img/performance-v1.png "algorithm version: 1")
+
+
+## Useful
+
+```
+node ./src/index.js sample/input-10-random-100x100-10000.txt > /dev/null; diff sample/output-10-random-100x100-10000.txt $( ls -t output/*.txt | head -1)
+```

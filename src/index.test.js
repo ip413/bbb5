@@ -5,20 +5,6 @@ const calc = require('./index');
 
 describe('bbb5 logic', function () {
 
-  it('calc distance between pixels', function () {
-    const pixelsSet = getSetOfPixels([100, 100, 100, 100]);
-    expect(calc.calcDistanceBetween(...pixelsSet)).to.equal(0);
-
-    const pixelsSet1 = getSetOfPixels([1, 1, 2, 2]);
-    expect(calc.calcDistanceBetween(...pixelsSet1)).to.equal(2);
-
-    const pixelsSet2 = getSetOfPixels([1, 1, 3, 3]);
-    expect(calc.calcDistanceBetween(...pixelsSet2)).to.equal(4);
-
-    const pixelsSet3 = getSetOfPixels([1, 1, 4, 4]);
-    expect(calc.calcDistanceBetween(...pixelsSet3)).to.equal(6);
-  });
-
   it('string to bitmap', function () {
     const stringBitmap = '10\n01';
     expect(calc.stringToBitmap(stringBitmap)).to.deep.equal([[1, 0], [0, 1]])
@@ -97,10 +83,53 @@ describe('bbb5 logic', function () {
   });
 });
 
-function getSetOfPixels (positions) {
-  const pixels =[];
-  for(let i = 0; i < positions.length; i+=2) {
-    pixels.push(calc.getPixel(positions[i], positions[i + 1]))
-  }
-  return pixels;
-}
+describe.skip('bbb5 performance: ones', function () {
+  it('ones 100', function () {
+    expect(calc.processInputData('argument', 'sample/input-03-many-ones-10x10-100.txt')).to.
+      equal(fs.readFileSync('sample/output-03-many-ones-10x10-100.txt', { encoding: 'utf-8' }));
+  });
+
+  it('ones 10k', function () {
+    expect(calc.processInputData('argument', 'sample/input-04-many-ones-100x100-10000.txt')).to.
+      equal(fs.readFileSync('sample/output-04-many-ones-100x100-10000.txt', { encoding: 'utf-8' }));
+  });
+
+  it('ones 33k', function () {
+    expect(calc.processInputData('argument', 'sample/input-05-many-ones-182x182-33124.txt')).to.
+      equal(fs.readFileSync('sample/output-05-many-ones-182x182-33124.txt', { encoding: 'utf-8' }));
+  }).timeout(30000);
+})
+
+describe.skip('bbb5 performance: zeros', function () {
+  it('zeros 100', function () {
+    expect(calc.processInputData('argument', 'sample/input-06-many-zeros-10x10-100.txt')).to.
+      equal(fs.readFileSync('sample/output-06-many-zeros-10x10-100.txt', { encoding: 'utf-8' }));
+  });
+
+  it('zeros 10k', function () {
+    expect(calc.processInputData('argument', 'sample/input-07-many-zeros-100x100-10000.txt')).to.
+      equal(fs.readFileSync('sample/output-07-many-zeros-100x100-10000.txt', { encoding: 'utf-8' }));
+  });
+
+  it('zeros 33k', function () {
+    expect(calc.processInputData('argument', 'sample/input-08-many-zeros-182x182-33124.txt')).to.
+      equal(fs.readFileSync('sample/output-08-many-zeros-182x182-3312433124.txt', { encoding: 'utf-8' }));
+  }).timeout(30000);
+})
+
+describe.skip('bbb5 performance: random', function () {
+  it('random 100', function () {
+    expect(calc.processInputData('argument', 'sample/input-09-random-10x10-100.txt')).to.
+      equal(fs.readFileSync('sample/output-09-random-10x10-100.txt', { encoding: 'utf-8' }));
+  });
+
+  it('random 10k', function () {
+    expect(calc.processInputData('argument', 'sample/input-10-random-100x100-10000.txt')).to.
+      equal(fs.readFileSync('sample/output-10-random-100x100-10000.txt', { encoding: 'utf-8' }));
+  }).timeout(3000);
+
+  it('random 33k', function () {
+    expect(calc.processInputData('argument', 'sample/input-11-random-182x182-33124.txt')).to.
+      equal(fs.readFileSync('sample/output-11-random-182x182-33124.txt', { encoding: 'utf-8' }));
+  }).timeout(30000);
+})

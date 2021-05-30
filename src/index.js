@@ -10,35 +10,6 @@ cat sample/input1.txt | node ./src/index.js
 node ./src/index.js sample/input1.txt
 `;
 
-function main() {
-
-    // if module is required by other module, don't read stdin or arguments
-    if (!RUNNING_AS_SCRIPT) {
-        return;
-    }
-
-    // If no STDIN and no arguments
-    if (process.stdin.isTTY && process.argv.length <= 2) {
-        process.stderr.write('Argument with file path, or stdin data required.');
-        process.stdout.write(usageMsg);
-        process.exit(1);
-    }
-    // If no STDIN but arguments given
-    else if (process.stdin.isTTY && process.argv.length > 2) {
-        exports.processInputData('argument', process.argv[2]);
-    }
-    // read from STDIN
-    else {
-        let data = '';
-        process.stdin.on('readable', () => {
-            data += process.stdin.read() || '';
-        });
-        process.stdin.on('end', () => {
-            exports.processInputData('stdin', data);
-        });
-    }
-}
-
 /**
  * @example
  * in:
@@ -78,48 +49,7 @@ exports.processInputData = (type, data) => {
 }
 
 
-/**
- * @example
- * in:
- * 2
- * 3 4
- * 0001
- * 0011
- * 0110
- * 2 2
- * 01
- * 10
- *
- * out:
- * 0001
- * 0011
- * 0110
- *
- * 01
- * 10
- */
-function splitRawInputToCases(rawInput) {
-    const splitInput = rawInput.split('\n');
-    const cases = [];
 
-    let inputCase = '';
-    let i = 1;
-    while (i <= splitInput.length) {
-        // if end of input or line with rows and columns info
-        if ((splitInput[i] && splitInput[i].includes(' ')) ||
-            i == splitInput.length) {
-            if (inputCase.length) {
-                cases.push((inputCase + '').trim());
-                inputCase = '';
-            }
-        } else {
-            inputCase += (splitInput[i] + "\n");
-        }
-        i++;
-    }
-
-    return cases;
-}
 
 exports.batchBitmapStringToOutputString = (...rest) => {
     let output = '';
@@ -168,7 +98,7 @@ exports.getNearestWhitePixel = (pixel, pixelsList) => {
     // calculating distance for each pixel
     pixelsList.forEach(toPixel => {
         if(toPixel.v === 1) {
-            const distance = this.calcDistanceBetween(pixel, toPixel);
+            const distance = calcDistanceBetween(pixel, toPixel);
             distanceList.push(distance);
         } else {
             distanceList.push(-1);
@@ -299,20 +229,6 @@ exports.bitmapStringToPixelsList = (bitmapString) => {
 }
 
 /**
- * |i1-i2|+|j1-j2|
- * @example
- * in:
- * {i: 1, j: 1}
- * {i: 3, j: 3}
- *
- * out:
- * 4
- */
-exports.calcDistanceBetween = (pixel1, pixel2) => {
-    return Math.abs(pixel1.i - pixel2.i) + Math.abs(pixel1.j - pixel2.j);
-}
-
-/**
  * @example
  * in:
  * 3, 3, 1
@@ -322,6 +238,92 @@ exports.calcDistanceBetween = (pixel1, pixel2) => {
  */
 exports.getPixel = (i, j, v = 0) => {
     return {i, j, v}
+}
+
+function main() {
+
+    // if module is required by other module, don't read stdin or arguments
+    if (!RUNNING_AS_SCRIPT) {
+        return;
+    }
+
+    // If no STDIN and no arguments
+    if (process.stdin.isTTY && process.argv.length <= 2) {
+        process.stderr.write('Argument with file path, or stdin data required.');
+        process.stdout.write(usageMsg);
+        process.exit(1);
+    }
+    // If no STDIN but arguments given
+    else if (process.stdin.isTTY && process.argv.length > 2) {
+        exports.processInputData('argument', process.argv[2]);
+    }
+    // read from STDIN
+    else {
+        let data = '';
+        process.stdin.on('readable', () => {
+            data += process.stdin.read() || '';
+        });
+        process.stdin.on('end', () => {
+            exports.processInputData('stdin', data);
+        });
+    }
+}
+
+/**
+ * @example
+ * in:
+ * 2
+ * 3 4
+ * 0001
+ * 0011
+ * 0110
+ * 2 2
+ * 01
+ * 10
+ *
+ * out:
+ * 0001
+ * 0011
+ * 0110
+ *
+ * 01
+ * 10
+ */
+function splitRawInputToCases(rawInput) {
+    const splitInput = rawInput.split('\n');
+    const cases = [];
+
+    let inputCase = '';
+    let i = 1;
+    while (i <= splitInput.length) {
+        // if end of input or line with rows and columns info
+        if ((splitInput[i] && splitInput[i].includes(' ')) ||
+            i == splitInput.length) {
+            if (inputCase.length) {
+                cases.push((inputCase + '').trim());
+                inputCase = '';
+            }
+        } else {
+            inputCase += (splitInput[i] + "\n");
+        }
+        i++;
+    }
+
+    return cases;
+}
+
+/**
+ * By definition distance = |i1-i2|+|j1-j2|
+ * @example
+ * in:
+ * {i: 1, j: 1}
+ * {i: 3, j: 3}
+ *
+ * out:
+ * 4
+ */
+function calcDistanceBetween(pixel1, pixel2) {
+    return Math.abs(pixel1.i - pixel2.i) + Math.abs(pixel1.j - pixel2.j);
 }
 
 main();
