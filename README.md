@@ -30,10 +30,12 @@ Folder **output** contains results of outputs from terminal - just in case.
 ## TODO
 
 Things that can be done better:
-* algorithm: still too greedy
+* algorithm could work much better in two ways:
+  * eliminating in while loop closes neighbors (something like done in v. 3, but in loop)
+  * walk in spiral from "origin" pixel to the edges of image, like here: https://stackoverflow.com/questions/3706219/algorithm-for-iterating-over-an-outward-spiral-on-a-discrete-2d-grid-from-the-or
 * cyclomatic complexity too high
 * separation form library and interface/terminal wrapper seems to be good idea
-* names of methods/function/files aren't too good
+* names of methods/function/files aren't too good, especially those with "pixel" word
 * neighbors could depend on bitmap shape (high or wide bitmaps should have different shape of pre-check neighbors "circle")
 
 ## Performance
