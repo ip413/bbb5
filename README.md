@@ -21,7 +21,7 @@ Folder **output** contains results of outputs from terminal - just in case.
 
 ## Algorithm
 
-* algorithm is not searching for pixels in "spiral" way, somehow I didn't think about it, but it should be the main idea
+* algorithm is based on simple iterating through all pixels (not quite effective way)
 * use of short-circuit evaluation in two cases: pixel is white itself, or some neighbor is white
 * number of neighbors to pre-check depends on number of pixels in the whole bitmap
 * if no neighbor have white pixel, then whole bitmap is checked
