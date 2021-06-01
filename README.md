@@ -40,7 +40,7 @@ Things that can be done better:
 
 ## Performance
 
-### Algorithm version: 1 (5e3c7d9)
+### Algorithm version: 1 (9730425)
 | input size  | ones | zeros | random |
 |-------------|----- |-------|--------|
 | 100         | 0.04 | 0.04  | 0.07   |
@@ -51,7 +51,7 @@ Things that can be done better:
 ![alt text](./readme-img/performance-v1.png "algorithm version: 1")
 
 
-### Algorithm version: 2 (15c994b)
+### Algorithm version: 2 (eb4f603)
 | input size  | ones  | zeros | random |
 |-------------|-------|-------|--------|
 | 100         | 0.04  | 0.04  | 0.04   |
@@ -62,7 +62,7 @@ Things that can be done better:
 ![alt text](./readme-img/performance-v2.png "algorithm version: 2")
 
 
-### Algorithm version: 3 (a673708)
+### Algorithm version: 3 (7eb58d9)
 | input size  | ones  | zeros | random |
 |-------------|-------|-------|--------|
 | 100         | 0.07  | 0.08  | 0.08   |
@@ -73,7 +73,7 @@ Things that can be done better:
 ![alt text](./readme-img/performance-v3.png "algorithm version: 3")
 
 
-### Algorithm version: 4 (33a01a51e)
+### Algorithm version: 4 (9896929)
 | input size  | ones  | zeros | random |
 |-------------|-------|-------|--------|
 | 100         | 0.07  | 0.08  | 0.08   |
