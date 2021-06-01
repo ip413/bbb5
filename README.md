@@ -1,4 +1,5 @@
-# Interview task for c9...
+# Interview task for c...
+If you don't know why you are here, in this repo, just leave. This repo exist for someone and this person knows what is going on.
 
 ## Usage
 
@@ -22,19 +23,20 @@ Folder **output** contains results of outputs from terminal - just in case.
 ## Algorithm
 
 * algorithm is based on simple iterating through all pixels (not quite effective way)
-* use of short-circuit evaluation in two cases: pixel is white itself, or some neighbor is white
-* if no neighbor have white pixel, then whole bitmap is checked
+* use of short-circuit evaluation in two cases: pixel is white itself, or some neighbor pixel is white
 
 ## TODO
 
 Things that can be done better:
-* algorithm could work much better in two ways:
-  * ~~eliminating in while loop closest neighbors (something like done in v. 3, but in loop)~~ - tested, and results were disappointing
-  * walk in spiral from "origin" pixel to the edges of image, like here: https://stackoverflow.com/questions/3706219/algorithm-for-iterating-over-an-outward-spiral-on-a-discrete-2d-grid-from-the-or or here: https://stackoverflow.com/questions/398299/looping-in-a-spiral?
-* cyclomatic complexity too high
+* walk in spiral from "origin" pixel to the edges of image, like here: https://stackoverflow.com/questions/3706219/algorithm-for-iterating-over-an-outward-spiral-on-a-discrete-2d-grid-from-the-or or here: https://stackoverflow.com/questions/398299/looping-in-a-spiral - I'm not so sure if running quite complex "walking" algorithm for every pixel will make whol situation better
+* cyclomatic complexity is too high
 * separation form library and interface/terminal wrapper seems to be good idea
 * names of methods/function/files aren't too good, especially those with "pixel" word
 * neighbors could depend on bitmap shape (high or wide bitmaps should have different shape of pre-check neighbors "circle")
+
+## Postmortem
+
+* eliminating in ```while``` loop closest neighbors with constantly growin circle size (something like done in v. 3, but in loop) was tested, and results were disappointing
 
 ## Performance
 
