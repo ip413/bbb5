@@ -97,8 +97,7 @@ exports.getNearestWhitePixel = (pixel, pixelsList) => {
 
     // if closest neighbors have some white pixels,
     // we don't need to check whole bitmap
-    // double sqrt seems to works best on random data
-    const neighborsCircleSize = Math.sqrt(Math.sqrt(pixelsList.length));
+    const neighborsCircleSize = 3;
     const neighbors = pixelsList.filter(toPixel => {
         if (Math.abs(toPixel.i - pixel.i) < neighborsCircleSize &&
             Math.abs(toPixel.j - pixel.j) < neighborsCircleSize) {
