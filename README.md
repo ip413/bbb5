@@ -59,7 +59,7 @@ Things that can be done better:
 | 33124       | 0.09  | 3     | 4.9    |
 
 
-![alt text](./readme-img/performance-v2.png "algorithm version: 1")
+![alt text](./readme-img/performance-v2.png "algorithm version: 2")
 
 
 ### Algorithm version: 3 (a673708)
@@ -70,7 +70,18 @@ Things that can be done better:
 | 33124       | 0.14  | 6.8   | 2.9    |
 
 
-![alt text](./readme-img/performance-v3.png "algorithm version: 1")
+![alt text](./readme-img/performance-v3.png "algorithm version: 3")
+
+
+### Algorithm version: 4 (33a01a51e)
+| input size  | ones  | zeros | random |
+|-------------|-------|-------|--------|
+| 100         | 0.07  | 0.08  | 0.08   |
+| 10000       | 0.09  | 0.12  | 0.34   |
+| 33124       | 0.15  | 0.17  | 1.7    |
+
+
+![alt text](./readme-img/performance-v4.png "algorithm version: 4")
 
 
 ### Performance change

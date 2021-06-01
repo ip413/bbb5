@@ -134,9 +134,10 @@ exports.getNearestWhitePixel = (pixel, pixelsList) => {
  */
 exports.getListOfNearestPixels = (pixelsList) => {
     const nearestPixelsList = [];
+    const whitePixelsList = pixelsList.filter(p => p.v === 1);
 
     pixelsList.forEach(pixel => {
-        nearestPixelsList.push({origin: pixel, nearestPixel: this.getNearestWhitePixel(pixel, pixelsList)});
+        nearestPixelsList.push({ origin: pixel, nearestPixel: this.getNearestWhitePixel(pixel, whitePixelsList)});
     })
 
     return nearestPixelsList.map(v => {
