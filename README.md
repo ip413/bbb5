@@ -23,15 +23,13 @@ Folder **output** contains results of outputs from terminal - just in case.
 
 * algorithm is based on simple iterating through all pixels (not quite effective way)
 * use of short-circuit evaluation in two cases: pixel is white itself, or some neighbor is white
-* number of neighbors to pre-check depends on number of pixels in the whole bitmap
 * if no neighbor have white pixel, then whole bitmap is checked
-* third version of algorithm is slower for "zero" bitmaps, but "random" bitmap type was the priority
 
 ## TODO
 
 Things that can be done better:
 * algorithm could work much better in two ways:
-  * eliminating in while loop closest neighbors (something like done in v. 3, but in loop)
+  * ~~eliminating in while loop closest neighbors (something like done in v. 3, but in loop)~~ - tested, and results were disappointing
   * walk in spiral from "origin" pixel to the edges of image, like here: https://stackoverflow.com/questions/3706219/algorithm-for-iterating-over-an-outward-spiral-on-a-discrete-2d-grid-from-the-or or here: https://stackoverflow.com/questions/398299/looping-in-a-spiral?
 * cyclomatic complexity too high
 * separation form library and interface/terminal wrapper seems to be good idea
