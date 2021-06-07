@@ -30,14 +30,14 @@ Folder **output** contains results of outputs from terminal - just in case.
 ## TODO
 
 Things that can be done better:
-* walk in spiral from "origin" pixel to the edges of image, like here: https://stackoverflow.com/questions/3706219/algorithm-for-iterating-over-an-outward-spiral-on-a-discrete-2d-grid-from-the-or or here: https://stackoverflow.com/questions/398299/looping-in-a-spiral - I'm not so sure if running quite complex "walking" algorithm for every pixel will make whol situation better
+* walk in spiral from "origin" pixel to the edges of image, like here: https://stackoverflow.com/questions/3706219/algorithm-for-iterating-over-an-outward-spiral-on-a-discrete-2d-grid-from-the-or or here: https://stackoverflow.com/questions/398299/looping-in-a-spiral - I'm not so sure if running quite complex "walking" algorithm for every pixel will make whole situation better
 * cyclomatic complexity is too high
 * names of methods/function/files aren't too good, especially those with "pixel" word
 * neighbors could depend on bitmap shape (high or wide bitmaps should have different shape of pre-check neighbors "circle")
 
 ## Postmortem
 
-* eliminating in ```while``` loop closest neighbors with constantly growin circle size (something like done in v. 3, but in loop) was tested, and results were disappointing
+* eliminating in ```while``` loop closest neighbors with constantly growing circle size (something like done in v. 3, but in loop) has been tested, and results were disappointing
 
 ## Performance
 
